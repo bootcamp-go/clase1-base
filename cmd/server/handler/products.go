@@ -20,8 +20,11 @@ func NewHandlerProducts(s internal.Service) *Product {
 
 func (p *Product) GetOne() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-
-		product, err := p.Service.GetOne()
+		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+		if err != nil {
+			ctx.String(400, "Invalid id")
+		}
+		product, err := p.Service.GetOne(int(id))
 
 		if err != nil {
 			ctx.JSON(400, web.NewResponse(400, nil, fmt.Sprintf("There was an error: %v", err)))
@@ -56,7 +59,6 @@ func (p *Product) Update() gin.HandlerFunc {
 		var prod models.Product
 
 		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
-
 		if err != nil {
 			ctx.String(400, "Invalid id")
 		}

@@ -3,7 +3,7 @@ package internal
 import "github.com/bootcamp-go/clase1-base/internal/models"
 
 type Service interface {
-	GetOne() (models.Product, error)
+	GetOne(id int) (models.Product, error)
 	Store(product models.Product) (models.Product, error)
 	Update(id int, product models.Product) (models.Product, error)
 	Delete(id int) error
@@ -17,8 +17,8 @@ func NewService(repository Repository) Service {
 	return &service{repository: repository}
 }
 
-func (s *service) GetOne() (models.Product, error) {
-	product, err := s.repository.GetOne()
+func (s *service) GetOne(id int) (models.Product, error) {
+	product, err := s.repository.GetOne(id)
 	if err != nil {
 		return models.Product{}, err
 	}
@@ -36,7 +36,7 @@ func (s *service) Store(product models.Product) (models.Product, error) {
 }
 
 func (s *service) Update(id int, product models.Product) (models.Product, error) {
-	return s.repository.Update(product)
+	return s.repository.Update(id, product)
 }
 
 func (s *service) Delete(id int) error {

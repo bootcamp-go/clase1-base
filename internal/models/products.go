@@ -1,7 +1,7 @@
 package models
 
 type Product struct {
-	Id    int
+	ID    int
 	Name  string
 	Type  string
 	Count int
